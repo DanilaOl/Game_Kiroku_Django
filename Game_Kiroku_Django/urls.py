@@ -17,11 +17,19 @@ Including another URLconf
 from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
+from games import views as games_views
 
 urlpatterns = [
+    path('', games_views.index, name='index'),
+    path('games/', include('games.urls', namespace='games')),
     path('admin/', admin.site.urls),
+
 ]
 
 if settings.DEBUG:
     import debug_toolbar
+    from django.conf.urls.static import static
+
     urlpatterns += (path('__debug__/', include(debug_toolbar.urls)),)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

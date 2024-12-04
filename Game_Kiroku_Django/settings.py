@@ -42,7 +42,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
+    'django_cleanup.apps.CleanupConfig',
     'games.apps.GamesConfig',
+    'users.apps.UsersConfig',
+    'developers.apps.DevelopersConfig',
+    'publishers.apps.PublishersConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -58,10 +63,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'Game_Kiroku_Django.urls'
 
+TEMPLATES_DIRS = BASE_DIR / 'templates'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
+        'DIRS': [TEMPLATES_DIRS]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -115,7 +122,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-RU'
 
 TIME_ZONE = 'UTC'
 
@@ -129,9 +136,18 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [
+    BASE_DIR / 'static_dev',
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-INTERNAL_IPS = ['127.0.0.1', ]
+INTERNAL_IPS = ['127.0.0.1', 'localhost', ]
+
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/'
+
+AUTH_USER_MODEL = 'users.User'
