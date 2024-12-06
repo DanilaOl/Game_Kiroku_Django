@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+
+{% block title %}
+  Игры
+{% endblock %}
+
+{% block content %}
+  <h1 class="mb-3">Игры</h1>
+  <div class="row gap-lg-3 gap-md-2 m-0 justify-content-evenly">
+    {% for game in page_obj %}
+      <div class="card game-card col-md-4 col-lg-2 p-0">
+        <a href="{% url 'games:games_detail' pk=game.id %}"
+           class="text-decoration-none">
+          <img src="{{ game.poster.url }}" alt="" class="card-img">
+          <div class="card-body p-0">
+            <p class="card-title text-center text-black fw-bold m-0 py-2 px-1">
+              {{ game.name }}
+            </p>
+          </div>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

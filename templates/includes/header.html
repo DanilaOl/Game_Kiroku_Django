@@ -1,10 +1,11 @@
 {% load static %}
+{% load django_bootstrap5 %}
 
 <header>
   <nav class="navbar bg-red">
     <div class="container-fluid pe-0">
-      <a href="#" class="navbar-brand text-white">GK</a>
-      <form class="d-flex col-5">
+      <a href="{% url 'games:games_list' %}" class="navbar-brand text-white">GK</a>
+      <form class="d-flex col-5" action="{% url 'games:games_list' %}">
         <input type="search" class="form-control" placeholder="Поиск..." aria-label="search" name="search_text">
         <button type="submit" class="btn text-white">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search"
@@ -12,6 +13,25 @@
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
           </svg>
         </button>
+        <div class="dropdown">
+          <button class="btn text-white dropdown-toggle" type="button" id="dropdownFilterButton"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-filter"
+                 viewBox="0 0 16 16">
+              <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
+            </svg>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end px-3 pt-4" aria-labelledby="dropdownFilterButton">
+            {% bootstrap_form filter_form %}
+{#                        <ul class="list-inline">#}
+{#                          {% for field in filter_form %}#}
+{#                            <li>#}
+{#                              {% bootstrap_field field %}#}
+{#                            </li>#}
+{#                          {% endfor %}#}
+{#                        </ul>#}
+          </div>
+        </div>
       </form>
       {% if request.user.is_authenticated %}
         <div class="nav nav-item dropdown p-0">

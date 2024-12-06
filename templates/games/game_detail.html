@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ object.name }}
+{% endblock %}
+
+{% block content %}
+  <div class="row mb-5">
+    <div class="col-lg-3 col-md-4 col-sm-12">
+      <img src="{{ object.poster.url }}" alt="" class="w-100">
+    </div>
+    <div class="col-lg-6 col-md-8 col-sm-12">
+      <h1>{{ object.name }}</h1>
+      <p class="mb-1">Дата выхода: {{ object.release_date }}</p>
+      <p class="mb-1">Разработчик: <a href="#">{{ object.developer }}</a></p>
+      <p class="mb-1">Издатель: <a href="">{{ object.publisher }}</a></p>
+      <p>
+        Жанры:
+        {% for genre in object.genres.all %}
+          <a href="">{{ genre }}</a>
+          {% if not forloop.last %}|{% endif %}
+        {% endfor %}
+      </p>
+      {% if game.video_url %}
+        <div class="ratio ratio-16x9">
+          <iframe src="{{ game.video_url }}" frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  class="w-100"
+          >
+          </iframe>
+        </div>
+      {% endif %}
+    </div>
+    <div class="col-lg-3 col-md-5">
+      <p class="fs-3">Рейтинг: {{ object.rating|floatformat:"-2u" }}</p>
+      {% if request.user.is_authenticated %}
+        <p>Место для выбора списка</p>
+        <p>Место для выбора оценки</p>
+      {% endif %}
+    </div>
+  </div>
+  {% if game.comments.count %}
+    <p class="fw-bold fs-4">Комментарии</p>
+    <div class="row">
+      {% for comment in object.comment_set.all %}
+        <div class="row mb-2">
+          <div class="col-2"><a href="#">{{ comment.user }}</a></div>
+          <div class="col-10">{{ comment.text }}</div>
+        </div>
+        <hr>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+{% endblock %}

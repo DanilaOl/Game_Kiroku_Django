@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'debug_toolbar',
     'django_cleanup.apps.CleanupConfig',
+    'django_bootstrap5',
     'games.apps.GamesConfig',
     'users.apps.UsersConfig',
     'developers.apps.DevelopersConfig',
