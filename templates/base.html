@@ -15,7 +15,11 @@
   <title>{% block title %}{% endblock %} - Game-Kiroku</title>
 </head>
 <body>
-{% include 'includes/header.html' %}
+{% if not '/auth' in request.path %}
+	{% include 'includes/header.html' %}
+{% else %}
+  {% include 'includes/header_auth.html' %}
+{% endif %}
 <main class="container px-5 py-3 mt-5">
   {% block content %}{% endblock %}
 {% include 'includes/footer.html' %}

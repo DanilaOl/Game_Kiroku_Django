@@ -1,3 +1,8 @@
 from django.shortcuts import render
+from django.views.generic import DetailView
+from .models import User
+from games.views import FilterFormMixin
 
-# Create your views here.
+class UserDetailView(FilterFormMixin, DetailView):
+    model = User
+

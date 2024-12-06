@@ -21,8 +21,10 @@ from games import views as games_views
 
 urlpatterns = [
     path('', games_views.index, name='index'),
-    path('games/', include('games.urls', namespace='games')),
+    path('auth/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
+    path('games/', include('games.urls', namespace='games')),
+    path('users/', include('users.urls', namespace='users')),
 
 ]
 

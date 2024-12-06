@@ -41,13 +41,13 @@
             {{ request.user.username }}
           </a>
           <ul class="dropdown-menu dropdown-menu-end w-auto bg-red border-0 p-0" aria-labelledby="navbarDropdown">
-            <li class="p-0"><a href="" class="dropdown-item text-white p-2">Профиль</a></li>
-            <li class="p-0"><a href="" class="dropdown-item text-white p-2">Выход</a></li>
+            <li class="p-0"><a href="{% url 'users:users_detail' pk=request.user.id %}" class="dropdown-item text-white p-2">Профиль</a></li>
+            <li class="p-0"><a href="{% url '#' %}" class="dropdown-item text-white p-2">Выход</a></li>
           </ul>
         </div>
 
       {% else %}
-        <a href="#" class="nav nav-pills nav-link nav-item text-white">Войти</a>
+        <a href="{% url 'login' %}" class="nav nav-pills nav-link nav-item text-white">Войти</a>
       {% endif %}
 
     </div>
