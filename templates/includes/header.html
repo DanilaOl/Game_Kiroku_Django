@@ -4,8 +4,8 @@
 <header>
   <nav class="navbar bg-red">
     <div class="container-fluid pe-0">
-      <a href="{% url 'games:games_list' %}" class="navbar-brand text-white">GK</a>
-      <form class="d-flex col-5" action="{% url 'games:games_list' %}">
+      <a href="{% url 'games:game_list' %}" class="navbar-brand text-white">GK</a>
+      <form class="d-flex col-5" action="{% url 'games:game_list' %}">
         <input type="search" class="form-control" placeholder="Поиск..." aria-label="search" name="search_text">
         <button type="submit" class="btn text-white">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search"
@@ -21,7 +21,7 @@
               <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
             </svg>
           </button>
-          <div class="dropdown-menu dropdown-menu-end px-3 pt-4" aria-labelledby="dropdownFilterButton">
+          <div class="dropdown-menu dropdown-menu-end w-100 px-3 pt-4 filter-dropdown" aria-labelledby="dropdownFilterButton">
             {% bootstrap_form filter_form %}
 {#                        <ul class="list-inline">#}
 {#                          {% for field in filter_form %}#}
@@ -41,8 +41,14 @@
             {{ request.user.username }}
           </a>
           <ul class="dropdown-menu dropdown-menu-end w-auto bg-red border-0 p-0" aria-labelledby="navbarDropdown">
-            <li class="p-0"><a href="{% url 'users:users_detail' pk=request.user.id %}" class="dropdown-item text-white p-2">Профиль</a></li>
-            <li class="p-0"><a href="{% url '#' %}" class="dropdown-item text-white p-2">Выход</a></li>
+            <li class="p-0"><a href="{% url 'users:user_detail' pk=request.user.id %}" class="dropdown-item text-white p-2">Профиль</a></li>
+            <li class="p-0">
+{#              <a href="{% url 'logout' %}" class="dropdown-item text-white p-2">Выход</a>#}
+              <form action="{% url 'logout' %}" method="post" class="btn-">
+                {% csrf_token %}
+                <button type="submit" class="w-100 dropdown-item text-white p-2">Выход</button>
+              </form>
+            </li>
           </ul>
         </div>
 

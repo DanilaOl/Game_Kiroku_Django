@@ -1,9 +1,78 @@
 {% extends 'base.html' %}
+{% load thumbnail %}
+{% load static %}
 
 {% block title %}
-	{{ object.username }}
+  {{ object.username }}
 {% endblock %}
 
 {% block content %}
-	{{ object }}
+  <h1 class="mb-3">{{ object.username }}</h1>
+  <div class="row mb-3">
+    <div class="col-lg-4 col-md-5 col-sm-5">
+      {% if object.photo %}
+        {% thumbnail object.photo "250x250" crop="center" as im %}
+          <img src="{{ im.url }}" width="im.width" height="im.height" alt="" class="w-100">
+        {% endthumbnail %}
+      {% else %}
+        <img src="{% static 'img/user_placeholder.jpg' %}" alt="" class="w-100">
+      {% endif %}
+    </div>
+    <div class="col-lg-4 col-md-5">
+      <p class="mb-1">На сайте с {{ object.date_joined|date }}</p>
+      {% if object.first_name and object.last_name %}
+        {{ object.get_full_name }}
+      {% elif object.first_name %}
+        {{ object.first_name }}
+      {% endif %}
+      {% if object.is_staff %}
+        <p class="mb-1">Администратор</p>
+      {% endif %}
+      <p class="mb-1">Статистика:</p>
+      <ul class="list-group">
+        <li class="list-group-item py-1">
+          Запланировано: {{ lists_grouped.planned|length }}
+        </li>
+        <li class="list-group-item py-1">
+          Играю: {{ lists_grouped.playing|length }}
+        </li>
+        <li class="list-group-item py-1">
+          Пройдено: {{ lists_grouped.completed|length }}
+        </li>
+        <li class="list-group-item py-1">
+          Отложено: {{ lists_grouped.postponed|length }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="row justify-content-between">
+    {% for group_list in lists_grouped.values %}
+      <div class="col-lg-6 col-md-12">
+        <table class="table">
+          <thead>
+          <tr>
+            <th scope="col" class="col-10 text-center">{{ group_list.0.type.translation }}</th>
+            <th scope="col" class="col-2 text-center">Оценка</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for list in group_list %}
+            <tr>
+              <td class="col-10">
+                <a href="{% url 'games:game_detail' pk=list.game.id %}">{{ list.game }}</a>
+              </td>
+              <td class="text-center">
+                {% if list.rate %}
+                  {{ list.rate }}
+                {% else %}
+                  —
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% endfor %}
+  </div>
 {% endblock %}

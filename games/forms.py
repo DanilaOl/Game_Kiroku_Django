@@ -1,5 +1,5 @@
 from django import forms
-from .models import Game
+from .models import Game, Comment
 
 
 class GameFilterForm(forms.ModelForm):
@@ -13,8 +13,16 @@ class GameFilterForm(forms.ModelForm):
         model = Game
         fields = ('developer', 'publisher', 'genres')
         widgets = {
-            # 'developer': forms.Select(attrs={'class': 'form-control'}),
             'developer': forms.Select,
             'publisher': forms.Select,
             'genres': forms.SelectMultiple,
+        }
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('text',)
+        widgets = {
+            'text': forms.Textarea(attrs={'rows': 4}),
         }

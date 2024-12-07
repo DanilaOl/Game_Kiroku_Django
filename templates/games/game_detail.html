@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load django_bootstrap5 %}
 
 {% block title %}
   {{ object.name }}
@@ -31,25 +32,72 @@
         </div>
       {% endif %}
     </div>
-    <div class="col-lg-3 col-md-5">
+    <div class="col-lg-3 col-md-5 btn-primary">
       <p class="fs-3">Рейтинг: {{ object.rating|floatformat:"-2u" }}</p>
       {% if request.user.is_authenticated %}
-        <p>Место для выбора списка</p>
-        <p>Место для выбора оценки</p>
+        <form action="{% url 'games:update_list' pk=object.id %}" method="post" class="col-12">
+          {% csrf_token %}
+          {% bootstrap_form user_list_form exclude="rate" %}
+          {% if user_list_form.instance.type %}
+            <div class="mb-3">
+              <label for="rate_input" class="form-label">Оценка</label>
+              <select name="rate" id="rate_input" class="form-select">
+                <option value="" {% if user_list_form.instance.rate is none %}selected{% endif %}>Нет</option>
+                <option value="1" {% if user_list_form.instance.rate == 1 %}selected{% endif %}>1</option>
+                <option value="2" {% if user_list_form.instance.rate == 2 %}selected{% endif %}>2</option>
+                <option value="3" {% if user_list_form.instance.rate == 3 %}selected{% endif %}>3</option>
+                <option value="4" {% if user_list_form.instance.rate == 4 %}selected{% endif %}>4</option>
+                <option value="5" {% if user_list_form.instance.rate == 5 %}selected{% endif %}>5</option>
+                <option value="6" {% if user_list_form.instance.rate == 6 %}selected{% endif %}>6</option>
+                <option value="7" {% if user_list_form.instance.rate == 7 %}selected{% endif %}>7</option>
+                <option value="8" {% if user_list_form.instance.rate == 8 %}selected{% endif %}>8</option>
+                <option value="9" {% if user_list_form.instance.rate == 9 %}selected{% endif %}>9</option>
+                <option value="10" {% if user_list_form.instance.rate == 10 %}selected{% endif %}>10</option>
+              </select>
+            </div>
+          {% endif %}
+          {% bootstrap_button "Добавить" type="submit" %}
+        </form>
       {% endif %}
     </div>
   </div>
-  {% if game.comments.count %}
-    <p class="fw-bold fs-4">Комментарии</p>
+  <p class="fw-bold fs-4">Комментарии</p>
+  {% if not game.comments.count %}
+    <p class="text-center">У этой игры ещё нет комментариев, станьте первым</p>
+  {% else %}
     <div class="row">
       {% for comment in object.comment_set.all %}
         <div class="row mb-2">
-          <div class="col-2"><a href="#">{{ comment.user }}</a></div>
-          <div class="col-10">{{ comment.text }}</div>
+          <div class="col-2"><a href="{% url 'users:user_detail' pk=comment.user.id %}">{{ comment.user }}</a></div>
+          <div class="col-9">{{ comment.text }}</div>
+          <div class="col-1">
+            {% if request.user.is_authenticated and comment.user == request.user %}
+              <form action="{% url 'games:delete_comment' pk=object.id comment_id=comment.id %}" method="post"
+                    class="text-end">
+                {% csrf_token %}
+                <button type="submit" class="btn text-danger p-0">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-x-lg"
+                       viewBox="0 0 16 16">
+                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                  </svg>
+                </button>
+              </form>
+            {% endif %}
+          </div>
         </div>
         <hr>
       {% endfor %}
     </div>
   {% endif %}
+  {% if request.user.is_authenticated %}
+    <form action="{% url 'games:create_comment' pk=object.id %}" method="post" class="col-lg-8 col-md-12 m-auto">
+      {% csrf_token %}
+      {% bootstrap_form comment_form show_label="skip" %}
+      <div class="text-center">
+        {% bootstrap_button "Отправить" type="submit" %}
+      </div>
+    </form>
+  {% endif %}
+
 
 {% endblock %}

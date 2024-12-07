@@ -5,5 +5,6 @@ from . import views
 app_name = 'users'
 
 urlpatterns = [
-    path('<int:pk>/', views.UserDetailView.as_view(), name='users_detail'),
+    path('', views.current_user_redirect, name='current_user_redirect'),
+    path('<int:pk>/', views.UserDetailView.as_view(), name='user_detail'),
 ]

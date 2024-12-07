@@ -3,6 +3,7 @@ import os
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+from sorl.thumbnail import ImageField
 
 from games.models import Game
 
@@ -12,11 +13,11 @@ def get_image_path(instance, filename):
 
 
 class User(AbstractUser):
-    photo = models.ImageField(
+    photo = ImageField(
         upload_to=get_image_path,
         max_length=255,
         blank=True,
-        null=True
+        null=True,
     )
     lists = models.ManyToManyField('games.Game', through='UserList')
 
@@ -27,6 +28,7 @@ class User(AbstractUser):
 class ListType(models.Model):
     type = models.CharField('Тип списка', max_length=20)
     translation = models.CharField('Перевод', max_length=20)
+    order = models.PositiveSmallIntegerField('Порядок')
 
     class Meta:
         verbose_name = 'Тип списка'
@@ -43,10 +45,10 @@ class UserList(models.Model):
         on_delete=models.CASCADE,
         verbose_name='Игра'
     )
-    type = models.OneToOneField(
+    type = models.ForeignKey(
         ListType,
         on_delete=models.CASCADE,
-        verbose_name='Тип списка'
+        verbose_name='Тип списка',
     )
     rate = models.SmallIntegerField(
         blank=True, null=True,

@@ -8,10 +8,10 @@
 
 {% block content %}
   <h1 class="mb-3">Игры</h1>
-  <div class="row gap-lg-3 gap-md-2 m-0 justify-content-evenly">
+  <div class="row gap-lg-4 gap-md-2 gap-sm-5 justify-content-center">
     {% for game in page_obj %}
-      <div class="card game-card col-md-4 col-lg-2 p-0">
-        <a href="{% url 'games:games_detail' pk=game.id %}"
+      <div class="card game-card col-lg-2 col-md-3 col-sm-10 p-0">
+        <a href="{% url 'games:game_detail' pk=game.id %}"
            class="text-decoration-none">
           <img src="{{ game.poster.url }}" alt="" class="card-img">
           <div class="card-body p-0">
@@ -23,4 +23,5 @@
       </div>
     {% endfor %}
   </div>
+  {% include 'includes/paginator.html' %}
 {% endblock %}

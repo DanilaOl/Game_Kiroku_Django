@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
+{% load static %}
 {% block title %}
   Авторизация
 {% endblock %}
@@ -29,9 +30,8 @@
         {% csrf_token %}
         {% bootstrap_form form %}
         <div class="text-center">
-          {% bootstrap_button button_type="submit" content="Войти" button_class="btn-danger" %}
+          {% bootstrap_button button_type="submit" content="Войти" %}
         </div>
-
       </form>
       <div class="text-center">
         <a href="{% url 'password_reset' %}">Забыли пароль?</a>

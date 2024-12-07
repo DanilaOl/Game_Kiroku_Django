@@ -56,6 +56,14 @@ class Game(models.Model):
         null=True
     )
 
+    def recalculate_rating(self):
+        new_rating = self.userlist_set.aggregate(
+            models.Avg('rate', default=0)
+        )['rate__avg']
+
+        self.rating = new_rating
+        self.save()
+
     class Meta:
         verbose_name = 'Игра'
         verbose_name_plural = 'Игры'

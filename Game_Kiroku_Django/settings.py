@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'django_cleanup.apps.CleanupConfig',
     'django_bootstrap5',
+    'sorl.thumbnail',
     'games.apps.GamesConfig',
     'users.apps.UsersConfig',
     'developers.apps.DevelopersConfig',
@@ -152,4 +153,5 @@ MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 
 AUTH_USER_MODEL = 'users.User'
-LOGIN_REDIRECT_URL = 'users:users_detail'
+LOGIN_REDIRECT_URL = 'users:current_user_redirect'
+LOGOUT_REDIRECT_URL = 'games:game_list'
