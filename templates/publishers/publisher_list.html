@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Издатели
+{% endblock %}
+
+{% block content %}
+  <h1 class="mb-3">Издатели</h1>
+  <div class="row row-cols-lg-2 row-cols-md-1 row-cols-1 g-2">
+    {% for publisher in page_obj %}
+      <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <a href="{% url 'publishers:publisher_detail' pk=publisher.id %}">{{ publisher.name }}</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% include 'includes/paginator.html' %}
+{% endblock %}

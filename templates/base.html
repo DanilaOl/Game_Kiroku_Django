@@ -20,11 +20,10 @@
 {% else %}
   {% include 'includes/header_auth.html' %}
 {% endif %}
-<main class="container px-5 py-3 mt-5">
+<main class="container px-5 py-4 mt-4 mb-3">
   {% block content %}{% endblock %}
 {% include 'includes/footer.html' %}
 </main>
-{#{% include 'includes/toast-container.html' %}#}
 
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 </body>

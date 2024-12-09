@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Жанры
+{% endblock %}
+
+{% block content %}
+  <h1 class="mb-3">Жанры</h1>
+  <div class="row row-cols-lg-2 row-cols-md-1 row-cols-1 g-2">
+    {% for genre in page_obj %}
+      <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <a href="{% url 'games:genre_detail' pk=genre.id %}">{{ genre.name }}</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% include 'includes/paginator.html' %}
+{% endblock %}

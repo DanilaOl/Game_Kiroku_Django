@@ -21,12 +21,12 @@
     {% endif %}
   {% endif %}
 
-  <div class="card col-4 m-3 mx-auto">
+  <div class="card col-6 m-3 mx-auto">
     <div class="card-header text-center">
       Авторизация
     </div>
     <div class="card-body">
-      <form action="{% url 'login' %}" method="post">
+      <form action="{% url 'login' %}" method="post" class="mb-3">
         {% csrf_token %}
         {% bootstrap_form form %}
         <div class="text-center">
@@ -34,7 +34,8 @@
         </div>
       </form>
       <div class="text-center">
-        <a href="{% url 'password_reset' %}">Забыли пароль?</a>
+        <p class="mb-1"><a href="{% url 'password_reset' %}">Забыли пароль?</a></p>
+        <p class="mb-1"><a href="{% url 'registration' %}">Зарегистрироваться</a></p>
       </div>
     </div>
   </div>

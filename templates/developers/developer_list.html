@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Разработчики
+{% endblock %}
+
+{% block content %}
+  <h1 class="mb-3">Разработчики</h1>
+  <div class="row row-cols-lg-2 row-cols-md-1 row-cols-1 g-2">
+    {% for developer in page_obj %}
+      <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <a href="{% url 'developers:developer_detail' pk=developer.id %}">{{ developer.name }}</a>
+          </div>
+        </div>
+      </div>
+
+    {% endfor %}
+  </div>
+  {% include 'includes/paginator.html' %}
+{% endblock %}

@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load django_bootstrap5 %}
+{% load thumbnail %}
 
 {% block title %}
   Игры
@@ -8,19 +9,29 @@
 
 {% block content %}
   <h1 class="mb-3">Игры</h1>
-  <div class="row gap-lg-4 gap-md-2 gap-sm-5 justify-content-center">
+  <div class="row row-cols-1 row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-sm-1 g-3">
     {% for game in page_obj %}
-      <div class="card game-card col-lg-2 col-md-3 col-sm-10 p-0">
-        <a href="{% url 'games:game_detail' pk=game.id %}"
-           class="text-decoration-none">
-          <img src="{{ game.poster.url }}" alt="" class="card-img">
-          <div class="card-body p-0">
-            <p class="card-title text-center text-black fw-bold m-0 py-2 px-1">
-              {{ game.name }}
-            </p>
-          </div>
-        </a>
+      <div class="col">
+        <div class="card">
+          <a href="{% url 'games:game_detail' pk=game.id %}"
+             class="text-decoration-none">
+            {% if game.poster %}
+              {% thumbnail game.poster "600x900" crop="center" as poster %}
+            	  <img src="{{ poster.url }}" alt="" class="card-img">
+              {% endthumbnail %}
+            {% else %}
+              <img src="{% static 'img/game_placeholder.png' %}" alt="" class="card-img">
+            {% endif %} 
+            
+            <div class="card-body p-0">
+              <p class="card-title text-center text-black fw-bold m-0 py-2 px-1">
+                {{ game.name }}
+              </p>
+            </div>
+          </a>
+        </div>
       </div>
+      
     {% endfor %}
   </div>
   {% include 'includes/paginator.html' %}

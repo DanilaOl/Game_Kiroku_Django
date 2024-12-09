@@ -1,5 +1,7 @@
 from django import forms
-from .models import UserList, ListType
+from django.contrib.auth.forms import UserCreationForm
+
+from .models import UserList, ListType, User
 
 
 class UserListForm(forms.ModelForm):
@@ -15,3 +17,10 @@ class UserListForm(forms.ModelForm):
             'user': forms.HiddenInput,
             'game': forms.HiddenInput,
         }
+
+
+
+class CustomUserCreationForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = User
+        fields = ('username', 'email')

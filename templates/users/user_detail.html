@@ -28,8 +28,8 @@
       {% if object.is_staff %}
         <p class="mb-1">Администратор</p>
       {% endif %}
-      <p class="mb-1">Статистика:</p>
-      <ul class="list-group">
+      <p class="mb-2">Статистика:</p>
+      <ul class="list-group mb-1">
         <li class="list-group-item py-1">
           Запланировано: {{ lists_grouped.planned|length }}
         </li>
@@ -43,6 +43,9 @@
           Отложено: {{ lists_grouped.postponed|length }}
         </li>
       </ul>
+      {% if request.user == object %}
+      <p><a href="{% url 'password_change' %}">Сменить пароль</a></p>
+      {% endif %}
     </div>
   </div>
   <div class="row justify-content-between">

@@ -41,7 +41,7 @@ class Game(models.Model):
         blank=True,
         verbose_name='Издатель'
     )
-    genres = models.ManyToManyField(Genre, verbose_name='Жанры', blank=True)
+    genres = models.ManyToManyField(Genre, verbose_name='Жанры', blank=True, related_name='games')
     comments = models.ManyToManyField('users.User', through='Comment')
     poster = models.ImageField(
         upload_to=get_poster_path,

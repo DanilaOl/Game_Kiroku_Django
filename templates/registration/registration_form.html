@@ -1,23 +1,23 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load django_bootstrap5 %}
 
 {% block title %}
-	Восстановление пароля
+	Регистрация
 {% endblock %}
 
 {% block content %}
-  <div class="card col-6 m-auto">
+	<div class="card col-6 m-auto">
     <div class="card-header text-center">
-      Восстановление пароля
+      Регистрация
     </div>
     <div class="card-body">
       <form method="post">
         {% csrf_token %}
         {% bootstrap_form form %}
         <div class="text-center">
-          {% bootstrap_button button_type="submit" content="Сменить пароль" %}
+          {% bootstrap_button button_type="submit" content="Зарегистрироваться" %}
         </div>
       </form>
     </div>
   </div>
-{% endblock %} 
+{% endblock %}

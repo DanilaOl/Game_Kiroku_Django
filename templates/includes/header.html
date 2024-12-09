@@ -4,7 +4,23 @@
 <header>
   <nav class="navbar bg-red">
     <div class="container-fluid pe-0">
-      <a href="{% url 'games:game_list' %}" class="navbar-brand text-white">GK</a>
+      <div class="nav">
+        <a href="{% url 'games:game_list' %}" class="navbar-brand text-white col">GK</a>
+        <div class="dropdown nav-item">
+          <a href="#" class="nav-link text-white dropdown-toggle" role="button" id="dropdownMenuButton" 
+                  data-bs-toggle="dropdown" aria-expanded="false"
+          >
+            Меню
+          </a>
+          <ul class="dropdown-menu bg-red border-0 p-0 pt-1" aria-labelledby="dropdownMenuButton">
+            <li class="p-0"><a href="{% url 'games:game_list' %}" class="dropdown-item text-white p-2">Игры</a></li>
+            <li class="p-0"><a href="{% url 'developers:developer_list' %}" class="dropdown-item text-white p-2">Разработчики</a></li>
+            <li class="p-0"><a href="{% url 'publishers:publisher_list' %}" class="dropdown-item text-white p-2">Издатели</a></li>
+            <li class="p-0"><a href="{% url 'games:genre_list' %}" class="dropdown-item text-white p-2">Жанры</a></li>
+          </ul>
+        </div>
+      </div>
+
       <form class="d-flex col-5" action="{% url 'games:game_list' %}">
         <input type="search" class="form-control" placeholder="Поиск..." aria-label="search" name="search_text">
         <button type="submit" class="btn text-white">
@@ -21,15 +37,9 @@
               <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
             </svg>
           </button>
-          <div class="dropdown-menu dropdown-menu-end w-100 px-3 pt-4 filter-dropdown" aria-labelledby="dropdownFilterButton">
+          <div class="dropdown-menu dropdown-menu-end w-100 px-3 pt-4 filter-dropdown"
+               aria-labelledby="dropdownFilterButton">
             {% bootstrap_form filter_form %}
-{#                        <ul class="list-inline">#}
-{#                          {% for field in filter_form %}#}
-{#                            <li>#}
-{#                              {% bootstrap_field field %}#}
-{#                            </li>#}
-{#                          {% endfor %}#}
-{#                        </ul>#}
           </div>
         </div>
       </form>
@@ -40,10 +50,10 @@
           >
             {{ request.user.username }}
           </a>
-          <ul class="dropdown-menu dropdown-menu-end w-auto bg-red border-0 p-0" aria-labelledby="navbarDropdown">
-            <li class="p-0"><a href="{% url 'users:user_detail' pk=request.user.id %}" class="dropdown-item text-white p-2">Профиль</a></li>
+          <ul class="dropdown-menu dropdown-menu-end w-auto bg-red border-0 p-0 pt-1" aria-labelledby="navbarDropdown">
+            <li class="p-0"><a href="{% url 'users:user_detail' pk=request.user.id %}"
+                               class="dropdown-item text-white p-2">Профиль</a></li>
             <li class="p-0">
-{#              <a href="{% url 'logout' %}" class="dropdown-item text-white p-2">Выход</a>#}
               <form action="{% url 'logout' %}" method="post" class="btn-">
                 {% csrf_token %}
                 <button type="submit" class="w-100 dropdown-item text-white p-2">Выход</button>

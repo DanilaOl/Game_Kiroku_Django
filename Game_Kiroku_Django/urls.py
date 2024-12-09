@@ -16,15 +16,29 @@ Including another URLconf
 """
 from django.conf import settings
 from django.contrib import admin
-from django.urls import path, include
+from django.contrib.auth.forms import UserCreationForm
+from django.urls import path, include, reverse_lazy
+from django.views.generic import CreateView
+
 from games import views as games_views
+from users.forms import CustomUserCreationForm
 
 urlpatterns = [
     path('', games_views.index, name='index'),
     path('auth/', include('django.contrib.auth.urls')),
+    path(
+        'auth/registration',
+        CreateView.as_view(
+            template_name='registration/registration_form.html',
+            form_class=CustomUserCreationForm,
+            success_url=reverse_lazy('users:current_user_redirect'),
+        ),
+        name='registration'),
     path('admin/', admin.site.urls),
     path('games/', include('games.urls', namespace='games')),
     path('users/', include('users.urls', namespace='users')),
+    path('developers/', include('developers.urls', namespace='developers')),
+    path('publishers/', include('publishers.urls', namespace='publishers')),
 
 ]
 

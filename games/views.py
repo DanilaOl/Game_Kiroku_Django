@@ -9,7 +9,7 @@ from mixins.filter_form_mixin import FilterFormMixin
 from users.forms import UserListForm
 from users.models import UserList
 from .forms import GameFilterForm, CommentForm
-from .models import Game, Comment
+from .models import Game, Comment, Genre
 
 
 def index(request):
@@ -145,3 +145,12 @@ def delete_comment(request, pk, comment_id):
 
     instance.delete()
     return redirect('games:game_detail', pk=pk)
+
+
+class GenreListView(FilterFormMixin, ListView):
+    model = Genre
+    paginate_by = 20
+    ordering = 'name'
+
+class GenreDetailView(FilterFormMixin, DetailView):
+    model = Genre

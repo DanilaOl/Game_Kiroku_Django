@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
+{% load static %}
+{% load thumbnail %}
 
 {% block title %}
   {{ object.name }}
@@ -8,17 +10,26 @@
 {% block content %}
   <div class="row mb-5">
     <div class="col-lg-3 col-md-4 col-sm-12">
-      <img src="{{ object.poster.url }}" alt="" class="w-100">
+      {% if object.poster %}
+        {% thumbnail object.poster "600x900" crop="center" as poster %}
+      	  <img src="{{ poster.url }}" alt="" class="w-100">
+        {% endthumbnail %}
+      {% else %}
+        <img src="{% static 'img/game_placeholder.png' %}" alt="" class="w-100">
+      {% endif %} 
+      
     </div>
     <div class="col-lg-6 col-md-8 col-sm-12">
       <h1>{{ object.name }}</h1>
       <p class="mb-1">Дата выхода: {{ object.release_date }}</p>
-      <p class="mb-1">Разработчик: <a href="#">{{ object.developer }}</a></p>
-      <p class="mb-1">Издатель: <a href="">{{ object.publisher }}</a></p>
+      <p class="mb-1">Разработчик: <a href="{% url 'developers:developer_detail' pk=object.developer_id %}">{{ object.developer }}</a></p>
+      {% if object.publisher %}
+      	<p class="mb-1">Издатель: <a href="{% url 'publishers:publisher_detail' pk=object.publisher_id %}">{{ object.publisher }}</a></p>
+      {% endif %}
       <p>
         Жанры:
         {% for genre in object.genres.all %}
-          <a href="">{{ genre }}</a>
+          <a href="{% url 'games:genre_detail' pk=genre.id %}">{{ genre }}</a>
           {% if not forloop.last %}|{% endif %}
         {% endfor %}
       </p>
@@ -67,10 +78,19 @@
   {% else %}
     <div class="row">
       {% for comment in object.comment_set.all %}
-        <div class="row mb-2">
-          <div class="col-2"><a href="{% url 'users:user_detail' pk=comment.user.id %}">{{ comment.user }}</a></div>
-          <div class="col-9">{{ comment.text }}</div>
-          <div class="col-1">
+        <div class="row mb-2 align-items-center">
+          <div class="col-2 text-center p-0">
+            {% if comment.user.photo %}
+            	{% thumbnail comment.user.photo "50x50" crop="center" as user_photo %}
+                <img src="{{ user_photo.url }}" alt="" class="m-auto">
+              {% endthumbnail %}
+            {% else %}
+              <img src="{% static 'img/user_placeholder.jpg' %}" alt="" width="50" height="50">
+            {% endif %} 
+            <p><a href="{% url 'users:user_detail' pk=comment.user.id %}" class="ms-2">{{ comment.user }}</a></p>
+          </div>
+          <div class="col">{{ comment.text }}</div>
+          <div class="col-auto">
             {% if request.user.is_authenticated and comment.user == request.user %}
               <form action="{% url 'games:delete_comment' pk=object.id comment_id=comment.id %}" method="post"
                     class="text-end">
