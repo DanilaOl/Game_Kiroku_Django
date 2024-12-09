@@ -12,19 +12,21 @@
     <div class="col-lg-3 col-md-4 col-sm-12">
       {% if object.poster %}
         {% thumbnail object.poster "600x900" crop="center" as poster %}
-      	  <img src="{{ poster.url }}" alt="" class="w-100">
+          <img src="{{ poster.url }}" alt="" class="w-100">
         {% endthumbnail %}
       {% else %}
         <img src="{% static 'img/game_placeholder.png' %}" alt="" class="w-100">
-      {% endif %} 
-      
+      {% endif %}
+
     </div>
     <div class="col-lg-6 col-md-8 col-sm-12">
       <h1>{{ object.name }}</h1>
       <p class="mb-1">Дата выхода: {{ object.release_date }}</p>
-      <p class="mb-1">Разработчик: <a href="{% url 'developers:developer_detail' pk=object.developer_id %}">{{ object.developer }}</a></p>
+      <p class="mb-1">Разработчик: <a
+              href="{% url 'developers:developer_detail' pk=object.developer_id %}">{{ object.developer }}</a></p>
       {% if object.publisher %}
-      	<p class="mb-1">Издатель: <a href="{% url 'publishers:publisher_detail' pk=object.publisher_id %}">{{ object.publisher }}</a></p>
+        <p class="mb-1">Издатель: <a
+                href="{% url 'publishers:publisher_detail' pk=object.publisher_id %}">{{ object.publisher }}</a></p>
       {% endif %}
       <p>
         Жанры:
@@ -72,6 +74,14 @@
       {% endif %}
     </div>
   </div>
+  {% if object.description %}
+    <div class="row mb-5">
+      <div class="col-9">
+        <p class="fw-bold fs-4">Описание</p>
+        <p>{{ object.description }}</p>
+      </div>
+    </div>
+  {% endif %}
   <p class="fw-bold fs-4">Комментарии</p>
   {% if not game.comments.count %}
     <p class="text-center">У этой игры ещё нет комментариев, станьте первым</p>
@@ -81,12 +91,12 @@
         <div class="row mb-2 align-items-center">
           <div class="col-2 text-center p-0">
             {% if comment.user.photo %}
-            	{% thumbnail comment.user.photo "50x50" crop="center" as user_photo %}
+              {% thumbnail comment.user.photo "50x50" crop="center" as user_photo %}
                 <img src="{{ user_photo.url }}" alt="" class="m-auto">
               {% endthumbnail %}
             {% else %}
               <img src="{% static 'img/user_placeholder.jpg' %}" alt="" width="50" height="50">
-            {% endif %} 
+            {% endif %}
             <p><a href="{% url 'users:user_detail' pk=comment.user.id %}" class="ms-2">{{ comment.user }}</a></p>
           </div>
           <div class="col">{{ comment.text }}</div>

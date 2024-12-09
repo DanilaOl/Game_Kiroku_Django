@@ -21,8 +21,7 @@
               {% endthumbnail %}
             {% else %}
               <img src="{% static 'img/game_placeholder.png' %}" alt="" class="card-img">
-            {% endif %} 
-            
+            {% endif %}
             <div class="card-body p-0">
               <p class="card-title text-center text-black fw-bold m-0 py-2 px-1">
                 {{ game.name }}
@@ -31,7 +30,6 @@
           </a>
         </div>
       </div>
-      
     {% endfor %}
   </div>
   {% include 'includes/paginator.html' %}
